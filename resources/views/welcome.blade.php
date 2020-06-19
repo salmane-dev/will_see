@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         
         <link rel="stylesheet" href="css/mystyle.css">
         <link rel="stylesheet" href="css/app.css">
@@ -67,7 +68,8 @@
         </style>
     </head>
     <body>
-        <div class="bg-light flex-center position-ref full-height">
+        <div class="bg-light full-height">
+          <div class="container flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -82,11 +84,19 @@
                 </div>
             @endif
             <div class="content">
+                <i class="fa fa-book fa-5x" ></i>
                 <div class="title m-b-md">
                     Will See
-                     
+                 </div>
+                 <div class="content ">
+                   <a href="/home/" class="btn btn-secondary btn-lg btn-block" >Get started</a>
                  </div>
             </div> 
         </div>
+
+       
+
+    </div>
+ 
     </body>
 </html>

@@ -36,4 +36,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function khatma(){
+        return $this->hasMany(khatma::class)->orderBy('created_at', 'DESC');
+    }   
+
+
 }

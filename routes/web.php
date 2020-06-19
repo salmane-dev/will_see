@@ -13,14 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::post('/khatma/create', 'KhatmaController@create');
+Route::post('/khatma', 'KhatmaController@store');
+Route::get('/khatma/show', 'KhatmaController@show');
+Route::get('/khatma/', 'KhatmaController@index');
+ 

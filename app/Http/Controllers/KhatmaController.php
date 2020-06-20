@@ -20,9 +20,7 @@ class KhatmaController extends Controller
         $user = auth()->user();
 
         $khatmas = khatma::whereIn('user_id', $user);
-
-        dd($khatmas);
-
+  
        return view('khatmas.index', compact('khatmas'));
    }
 
@@ -51,8 +49,13 @@ class KhatmaController extends Controller
         return redirect('/home');
     }
 
-    public function show(){
+    public function show(khatma $khatma){
 
+        if(auth::user()->id == $khatma->user->id){
+            return view('khatmas.show', compact('khatma'));
+        }
+        $message = "you are not in ";
+        return view('/home', compact('message'));
     }
 
 }

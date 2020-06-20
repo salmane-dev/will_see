@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     public function khatmas(){
        // return $this->hasMany(khatma::class)->orderBy('created_at', 'DESC');
-        return $this->hasMany('App\khatma');
+        return $this->hasMany('App\khatma')->orderBy('created_at', 'DESC');
     }   
 
 

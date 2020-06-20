@@ -18,6 +18,7 @@ class CreateKhatmasTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('peeps');
             $table->unsignedBigInteger('days');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

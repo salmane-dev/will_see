@@ -25,8 +25,17 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::post('/khatma/create', 'KhatmaController@create');
+Route::get('/khatma/', 'KhatmaController@index');
+Route::get('/khatma/create', 'KhatmaController@create');
 Route::post('/khatma', 'KhatmaController@store');
 Route::get('/khatma/show', 'KhatmaController@show');
-Route::get('/khatma/', 'KhatmaController@index');
  
+
+
+/*
+Route::get('/', 'PostsController@index');
+Route::get('/p/create', 'PostsController@create');
+Route::get('/p/{post}', 'PostsController@show'); 
+Route::post('follow/{user}',  'FollowsController@store');
+Route::post('/p', 'PostsController@store');
+*/

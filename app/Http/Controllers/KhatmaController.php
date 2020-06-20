@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\khatma;
+use App\User;
+
 
 class KhatmaController extends Controller
 {
@@ -14,20 +17,20 @@ class KhatmaController extends Controller
 
  
     public function index(){
-        $users = auth()->user()->user_id;
+        $user = auth()->user();
 
-        $khatma = khatma::all();
+        $khatmas = khatma::whereIn('user_id', $user);
 
-        dd($khatma);
+        dd($khatmas);
 
-       return view('khatmas.index', compact('khatma'));
-    }
+       return view('khatmas.index', compact('khatmas'));
+   }
+
 
     public function create(){
         return view('khatmas.create');
     }
     
-
 
     public function store(){
          
@@ -37,10 +40,12 @@ class KhatmaController extends Controller
             'days' => 'required',
         ]);
       
-        auth()->user()->khatma()->create([
+           
+        auth()->user()->khatmas()->create([
             'name' => $data['name'],
             'peeps' => $data['peeps'],
-            'days' => $data['days'], 
+            'days' => $data['days'],
+            'user_id' => auth::id(),
         ]);
 
         return redirect('/home');

@@ -34,7 +34,13 @@
                             <h5 class="card-title">days : {{ $khatma->days }}</h5>
                             <h5 class="card-title">people :  {{ $khatma->peeps }}</h5>
                             <p class="card-text">Some quick exam c up the bulk of the card's content.</p>
+                           
+                            <div class=" d-flex justify-content-between">
                             <small class="card-text">by  :  {{  $khatma->user->name}}  </small>
+                            <p class=" text-right  " > created at {{  $khatma->created_at }}</p> 
+                            </div>
+
+                          
                         </div>
                     </div>
                 @endforeach

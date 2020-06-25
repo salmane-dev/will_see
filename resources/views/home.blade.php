@@ -12,14 +12,14 @@
 
                 <a href="/khatma/create" class="btn btn-secondary m-5 pr-4 pl-4 " >Add new </a>
                 
-               
-               
     </div>
-            <div class="row justify-content-center full-height h-100">
-                @if($message ?? '')
-                    <span class="alert alert-success p-3 center text-center"><strong>{{ $message ?? '' }}</strong></span>
-                @endif 
-            </div>
+        <div class="row justify-content-center full-height h-100">
+            @if(session()->has('message'))
+                <div class="alert alert-success ">
+                    {{ session()->get('message') }}
+                </div>
+            @endif 
+        </div>
 </div>
                
                 <div class="container mt-5">
@@ -44,6 +44,8 @@
                         </div>
                     </div>
                 @endforeach
+                @else
+                    there is no khatmas
                 @endif
                 </div>
                 

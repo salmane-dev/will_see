@@ -39,7 +39,7 @@
                 <div class="form-group row">
                     <label for="peeps" class="col-md-4 pl-0 mb-0"> peeps </label>
                     <input id="peeps" 
-                            type="text"
+                            type="number"
                             class="form-control @error('') is-invalid @enderror" 
                             name="peeps" value="{{ old('peeps') }}" 
                             autocomplete="off" autofocus>
@@ -53,7 +53,7 @@
                 <div class="form-group row">
                     <label for="days" class="col-md-4 pl-0 mb-0"> Days </label>
                     <input id="days" 
-                            type="text"
+                            type="number"
                             class="form-control @error('') is-invalid @enderror" 
                             name="days" value="{{ old('days') }}" 
                             autocomplete="off" autofocus>

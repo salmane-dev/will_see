@@ -15,6 +15,7 @@ class KhatmaController extends Controller
         $this->middleware('auth');
     }
 
+    
  
     public function index(){
         $user = auth()->user();
@@ -25,37 +26,52 @@ class KhatmaController extends Controller
    }
 
 
+
     public function create(){
         return view('khatmas.create');
     }
     
 
+
+
     public function store(){
-         
+   
         $data = request()->validate([
             'name' => 'required',
             'peeps' => 'required',
             'days' => 'required',
         ]);
-      
-           
         auth()->user()->khatmas()->create([
             'name' => $data['name'],
             'peeps' => $data['peeps'],
             'days' => $data['days'],
             'user_id' => auth::id(),
         ]);
-
-        return redirect('/home');
+       
+        $message = "Created successfully !";
+        return redirect('/home')->with('message', $message);
     }
+
+
 
     public function show(khatma $khatma){
 
         if(auth::user()->id == $khatma->user->id){
             return view('khatmas.show', compact('khatma'));
         }
+
         $message = "you are not in ";
         return view('/home', compact('message'));
     }
+
+
+    
+    public function destroy(khatma $khatma){
+        $khatma->delete();
+        $message = "Deleted successfully !";
+        return redirect('/home')->with('message', $message);
+  }
+
+
 
 }

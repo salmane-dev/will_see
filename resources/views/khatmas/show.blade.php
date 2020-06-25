@@ -16,9 +16,15 @@
                     <div class="card border-dark m-5 d-flex">
                         <div class="card-header d-flex justify-content-between">
                             <strong><h4> {{ $khatma->name }} </h4></strong>
-                            <div class=" ">
+                            <div class=" d-flex">
                                 <a href="#" class=" btn btn-secondary ">Edit</a>
-                                <a href="#" class=" btn btn-danger ">Delete</a>
+                                 
+                                <form action="/khatma/{{ $khatma->id }}" method="post" class="container">
+                                @method('DELETE')
+                                @csrf
+                                    <button class="btn btn-danger ">Delete</button>
+                                </form>
+
                             </div>
                         </div>
                         <div class="card-body text-dark">
@@ -26,22 +32,24 @@
                             <h5 class="card-title">people :  {{ $khatma->peeps }}</h5>
                             <p class="card-text">Some quick exam c up the bulk of the card's content.</p>
                         </div>
+                        
                         <div class="card-body text-dark">
-                            <div class="container bg-light p-2 m-1 d-flex justify-content-between  align-items-baseline"> 
-                                <span><i class="fa fa-check fa-lg" ></i></span> <strong>from 5 to 15 </strong>
-                                    <div>
-                                        <a href="#">
-                                            <img class="rounded-circle w-100" style="max-width:40px;" src="https://instagram.frba2-2.fna.fbcdn.net/v/t51.2885-19/s150x150/51221666_2348568452030815_2096770005608693760_n.jpg?_nc_ht=instagram.frba2-2.fna.fbcdn.net&_nc_ohc=DvV2RgvokLUAX9tI-fa&oh=514c19a22f2622489018226420c21f3a&oe=5F19EFD9" alt="this is crazy">
-                                            <h6>saido</h6>
+
+                         @for( $i = 0; $i < $khatma->peeps ; $i++)  
+                                <div class="row container bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
+                                    <span class="col-3"><i class="fa fa-times fa-lg text-danger" ></i></span>
+                                    <strong class="col-5">from 5 to 15 </strong>
+                                    <div class="col-3 text-center center"> 
+                                        <a href="#" class="kh-person-info"> 
+                                            <img class="rounded-circle pt-1 w-100" style="max-width:40px;" src="https://scontent-sin6-1.cdninstagram.com/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=scontent-sin6-1.cdninstagram.com&_nc_cat=1&_nc_ohc=OobJQIfveTAAX_zPkU7&oh=464f769fc2eaf92067db83f1c32e9c6f&oe=5F1F8A0F&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2" alt="this is crazy">
+                                            <h6 class=" ">Said deo</h6>
                                         </a>
                                     </div>
-                            </div>    
-                            <div class="container bg-light p-2 m-1 d-flex justify-content-between  align-items-baseline"> 
-                                <span><i class="fa fa-times fa-lg" ></i></span> <strong>from 5 to 15 </strong>  <a href="#"><img class="rounded-circle w-100" style="max-width:40px;" src="https://instagram.frba2-2.fna.fbcdn.net/v/t51.2885-19/s150x150/51221666_2348568452030815_2096770005608693760_n.jpg?_nc_ht=instagram.frba2-2.fna.fbcdn.net&_nc_ohc=DvV2RgvokLUAX9tI-fa&oh=514c19a22f2622489018226420c21f3a&oe=5F19EFD9" alt="this is crazy"> </a>
-                            </div>
+                                </div>  
+                        @endfor
+
                         </div>
                     </div>
-              
                 </div>
                 
 @endsection

@@ -1,102 +1,58 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Will See</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        
-        <link rel="stylesheet" href="css/mystyle.css">
-        <link rel="stylesheet" href="css/app.css">
-        
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="bg-light full-height">
-          <div class="container flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+@section('content')
+<div class="container full-height h-100">
+ 
             <div class="content">
                 <i class="fa fa-book fa-5x" ></i>
-                <div class="title m-b-md">
+                <div class="title ">
                     Will See
-                 </div>
-                 <div class="content ">
-                   <a href="/home/" class="btn btn-secondary btn-lg btn-block" >Get started</a>
-                 </div>
+                </div> 
             </div> 
-        </div>
 
-       
-
+    <div class="row justify-content-center full-height h-100">
+        @if (session('status'))
+            <div class="alert alert-success full-height" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+        <a href="/khatma/create" class="btn btn-secondary m-3 pr-4 pl-4 " >Add new </a>
     </div>
- 
-    </body>
-</html>
+
+        <div class="row justify-content-center full-height h-100">
+            @if(session()->has('message'))
+                <div class="alert alert-success ">
+                    {{ session()->get('message') }}
+                </div>
+            @endif 
+        </div>
+</div>
+
+                <div class="container mt-5">
+                @if($khatmas ?? '')
+                @foreach($khatmas ?? '' as $khatma) 
+                    <div class="card border-dark m-5 d-flex" >
+                        <div class="card-header d-flex justify-content-between">
+                           <strong><h4> {{ $khatma->name }} </h4></strong>
+                            <a href="/khatma/{{ $khatma->id }}" class=" text-right btn btn-secondary btn-sm " >Go to</a> 
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title">days : {{ $khatma->days }}</h5>
+                            <h5 class="card-title">people :  {{ $khatma->peeps }}</h5>
+                            <p class="card-text">Some quick exam c up the bulk of the card's content.</p>
+                           
+                            <div class=" d-flex justify-content-between">
+                            <small class="card-text">by  :  {{  $khatma->user->name}}  </small>
+                            <p class=" text-right  " > created at {{  $khatma->created_at }}</p> 
+                            </div>
+
+                          
+                        </div>
+                    </div>
+                @endforeach
+                @else
+                    there is no khatmas
+                @endif
+                </div>
+                
+@endsection

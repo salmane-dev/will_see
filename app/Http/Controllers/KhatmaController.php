@@ -18,11 +18,21 @@ class KhatmaController extends Controller
     
  
     public function index(){
-        $user = auth()->user();
 
+    /* 
+
+        $user = auth()->user();
         $khatmas = khatma::whereIn('user_id', $user);
-  
-       return view('khatmas.index', compact('khatmas'));
+        return view('index', compact('khatmas'));
+
+    */
+
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $khatmas = $user->khatmas;
+ 
+        return view('welcome', compact('khatmas'));
+        
    }
 
 
@@ -32,14 +42,13 @@ class KhatmaController extends Controller
     }
     
 
-
-
     public function store(){
    
         $data = request()->validate([
-            'name' => 'required',
-            'peeps' => 'required',
-            'days' => 'required',
+            'name' => ['required', 'string', 'max:125'],
+            'peeps' => ['required', 'integer', 'max:30'],
+            'days' => ['required', 'integer', 'max:30'],
+            
         ]);
         auth()->user()->khatmas()->create([
             'name' => $data['name'],
@@ -49,7 +58,7 @@ class KhatmaController extends Controller
         ]);
        
         $message = "Created successfully !";
-        return redirect('/home')->with('message', $message);
+        return redirect('/')->with('message', $message);
     }
 
 
@@ -61,7 +70,7 @@ class KhatmaController extends Controller
         }
 
         $message = "you are not in ";
-        return view('/home', compact('message'));
+        return view('welcome', compact('message'));
     }
 
 
@@ -69,7 +78,7 @@ class KhatmaController extends Controller
     public function destroy(khatma $khatma){
         $khatma->delete();
         $message = "Deleted successfully !";
-        return redirect('/home')->with('message', $message);
+        return redirect('/')->with('message', $message);
   }
 
 

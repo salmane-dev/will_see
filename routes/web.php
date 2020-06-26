@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/','KhatmaController@index');
 
 Route::get('/khatma/', 'KhatmaController@index');
 Route::get('/khatma/create', 'KhatmaController@create');

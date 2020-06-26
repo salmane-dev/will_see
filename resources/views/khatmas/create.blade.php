@@ -31,7 +31,9 @@
                             autocomplete="off" autofocus>
                             <small id="nameHelp" class="form-text text-muted">give it a name</small>   
                     @error('name')
+                        <div class="container text-danger">
                             <strong class="danger">{{ $message }}</strong>
+                        </div>
                     @enderror
                     
                 </div>
@@ -45,7 +47,9 @@
                             autocomplete="off" autofocus>
                             <small id="peeps" class="form-text text-muted">How many people will join this khatma</small>   
                     @error('peeps')
+                        <div class="container text-danger">
                             <strong class="danger">{{ $message }}</strong>
+                        </div>
                     @enderror
                     
                 </div>
@@ -59,7 +63,9 @@
                             autocomplete="off" autofocus>
                             <small id="days" class="form-text text-muted">for how long</small>   
                     @error('days')
+                        <div class="container text-danger">
                             <strong class="danger">{{ $message }}</strong>
+                        </div>
                     @enderror
                 </div>
 

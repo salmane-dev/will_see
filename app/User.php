@@ -32,15 +32,18 @@ class User extends Authenticatable
      * The attributes that should be cast to native types.
      *
      * @var array
-     */
+     **/
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-
     public function khatmas(){
-       // return $this->hasMany(khatma::class)->orderBy('created_at', 'DESC');
         return $this->hasMany('App\khatma')->orderBy('created_at', 'DESC');
+    } 
+
+    public function kh_peeps(){
+        return $this->belongsTo('App\kh_peeps')->orderBy('created_at', 'DESC');
     }   
 
 

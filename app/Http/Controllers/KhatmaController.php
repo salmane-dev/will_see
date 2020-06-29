@@ -48,8 +48,10 @@ class KhatmaController extends Controller
             'name' => ['required', 'string', 'max:125'],
             'peeps' => ['required', 'integer', 'max:30'],
             'days' => ['required', 'integer', 'max:30'],
-            
         ]);
+
+        auth()->user()->kh_peeps()->create([1, 5]);
+
         auth()->user()->khatmas()->create([
             'name' => $data['name'],
             'peeps' => $data['peeps'],

@@ -14,7 +14,7 @@ class kh_peeps extends Model
     } 
 
     public function user(){
-        return $this->hasMany('\App\User')->orderBy('created_at', 'DESC');
+        return $this->belongsTo('\App\User');
     }   
 
 

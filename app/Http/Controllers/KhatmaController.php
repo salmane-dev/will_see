@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\khatma;
 use App\User;
+use App\kh_peeps;
 
 
 class KhatmaController extends Controller
@@ -49,16 +50,24 @@ class KhatmaController extends Controller
             'peeps' => ['required', 'integer', 'max:30'],
             'days' => ['required', 'integer', 'max:30'],
         ]);
+        
 
-        auth()->user()->kh_peeps()->create([1, 5]);
 
-        auth()->user()->khatmas()->create([
+     $kha =  auth()->user()->khatmas()->create([
             'name' => $data['name'],
             'peeps' => $data['peeps'],
             'days' => $data['days'],
             'user_id' => auth::id(),
         ]);
+
+        auth()->user()->kh_peeps()->create([
+            'khatma_id' => $kha->id,
+            'peeps_id' => 00,
+        ]);
        
+         
+       
+        
         $message = "Created successfully !";
         return redirect('/')->with('message', $message);
     }

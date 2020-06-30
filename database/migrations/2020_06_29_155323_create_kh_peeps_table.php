@@ -16,7 +16,7 @@ class CreateKhPeepsTable extends Migration
         Schema::create('kh_peeps', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('khatma_id');
-            $table->unsignedBigInteger('peeps_id');
+            $table->unsignedBigInteger('peeps_id')->nullable();
             $table->timestamps();
         });
     }

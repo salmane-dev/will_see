@@ -31,7 +31,7 @@
                             autocomplete="off" autofocus>
                             <small id="nameHelp" class="form-text text-muted">give it a name</small>   
                     @error('name')
-                        <div class="container text-danger">
+                        <div class="container pl-0 text-danger">
                             <strong class="danger">{{ $message }}</strong>
                         </div>
                     @enderror
@@ -47,7 +47,7 @@
                             autocomplete="off" autofocus>
                             <small id="peeps" class="form-text text-muted">How many people will join this khatma</small>   
                     @error('peeps')
-                        <div class="container text-danger">
+                        <div class="container pl-0 text-danger">
                             <strong class="danger">{{ $message }}</strong>
                         </div>
                     @enderror
@@ -63,15 +63,32 @@
                             autocomplete="off" autofocus>
                             <small id="days" class="form-text text-muted">for how long</small>   
                     @error('days')
-                        <div class="container text-danger">
+                        <div class="container pl-0 text-danger">
                             <strong class="danger">{{ $message }}</strong>
                         </div>
                     @enderror
                 </div>
 
                 <div class="form-group row form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">join the khatma</label>
+                  
+                    <input type="hidden"
+                            class="form-check-input active"
+                            name="join" 
+                            value="0">
+                    
+                    <input type="checkbox"
+                            class="form-check-input active"
+                            name="join"
+                            id="join"
+                            checked="checked"
+                            value="1">
+                    <label class="form-check-label active" for="join" >join the khatma</label>
+                  
+                    @error('join')
+                    <div class="container pl-0 text-danger">
+                        <strong class="danger">{{ $message }}</strong>
+                    </div>
+                    @enderror
                 </div>
 
             <div class="row pt-4">

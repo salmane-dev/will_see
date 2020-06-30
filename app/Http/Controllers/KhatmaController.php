@@ -48,7 +48,8 @@ class KhatmaController extends Controller
         $data = request()->validate([
             'name' => ['required', 'string', 'max:125'],
             'peeps' => ['required', 'integer', 'max:30'],
-            'days' => ['required', 'integer', 'max:30'],
+            'days' => ['required', 'integer', 'max:30']  ,
+            'join' => 'in:0,1'
         ]);
         
 
@@ -60,9 +61,11 @@ class KhatmaController extends Controller
             'user_id' => auth::id(),
         ]);
 
+         ($data['join'] == 1) ? $peep = auth::id() : $peep = null ; 
+         
         auth()->user()->kh_peeps()->create([
-            'khatma_id' => $kha->id,
-            'peeps_id' => 00,
+            'khatma_id' => $kha->id, 
+            'peeps_id' => $peep,
         ]);
        
          

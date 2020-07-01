@@ -26,4 +26,3 @@ Route::get('/khatma/create', 'KhatmaController@create');
 Route::post('/khatma', 'KhatmaController@store');
 Route::get('/khatma/{khatma}', 'KhatmaController@show');
 Route::delete('/khatma/{khatma}', 'KhatmaController@destroy');
- 

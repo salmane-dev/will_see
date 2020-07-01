@@ -37,27 +37,28 @@
                         </div>
                         
                         <div class="card-body text-dark">
-                        <hr>
+                    <hr>
                         <span class="text-center ml-4"> Send test </span>
-                               
-                            <div class="row container bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
+                          @foreach( $peeps  as $peepo)
+                            <div class="row container rounded bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
                                 <span class="col-3"><i class="fa fa-times fa-lg text-danger" ></i></span>
                                 <strong class="col-5">  from  22 to 33  </strong>
                                 <div class="col-3 text-center center">
                                     <a href="#" class="kh-person-info">
-                                        <i class="fa fa-plus p-2 bg-info text-light rounded-circle m-1 fa-1x " ></i>
-                                        <h6 class=" "> Send</h6>
+                                        <i class="fa fa-plus p-2 pl-2 pr-2 bg-info text-light rounded-circle m-1 fa-1x " ></i>
+                                        <h6 class=" "> {{ $peepo->name }}  </h6>
                                     </a>
                                 </div>
                             </div>
-                        <hr>
+                        @endforeach
+                    <hr>
                         </div>
 
 
                         <div class="card-body text-dark">
                          @php( $share = 0 )
                          @for( $i = 0 ; $i < $khatma->peeps ; $i++)
-                                <div class="row container bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
+                                <div class="row container rounded bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
                                     <span class="col-3"><i class="fa fa-times fa-lg text-danger" ></i></span>
                                     <strong class="col-5">from {{ round($share + 1) }} to {{   $share  = $share + 60/$khatma->peeps }} </strong>
                                     <div class="col-3 text-center center">

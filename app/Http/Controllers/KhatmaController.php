@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\khatma;
 use App\User;
-use App\kh_peeps;
+use App\kh_peeps; 
+use Illuminate\Support\Facades\DB;
 
 
 class KhatmaController extends Controller
@@ -51,8 +52,7 @@ class KhatmaController extends Controller
             'days' => ['required', 'integer', 'max:30']  ,
             'join' => 'in:0,1'
         ]);
-        
-
+         
 
      $kha =  auth()->user()->khatmas()->create([
             'name' => $data['name'],
@@ -61,14 +61,14 @@ class KhatmaController extends Controller
             'user_id' => auth::id(),
         ]);
 
-         ($data['join'] == 1) ? $peep = auth::id() : $peep = null ; 
-         
+        // check if the khatma creator want to join it
+        ($data['join'] == 1) ? $peep = auth::id() : $peep = null ; 
+        
+
         auth()->user()->kh_peeps()->create([
             'khatma_id' => $kha->id, 
             'peeps_id' => $peep,
         ]);
-       
-         
        
         
         $message = "Created successfully !";
@@ -78,9 +78,20 @@ class KhatmaController extends Controller
 
 
     public function show(khatma $khatma){
-
+       
         if(auth::user()->id == $khatma->user->id){
-            return view('khatmas.show', compact('khatma'));
+            
+            // get the name of the khatmas peeps
+            $peeps = DB::table('users')
+                        ->join('kh_peeps' , 'kh_peeps.peeps_id', '=', 'users.id')
+                        ->where('kh_peeps.khatma_id', $khatma->id )
+                        ->select('users.name')->get();
+         
+        //  $peeps = DB::table('kh_peeps')->where('khatma_id', $khatma->id )->pluck('peeps_id');
+            
+        //  $peeps = App\User::all();
+        
+            return view('khatmas.show', compact(['khatma', 'peeps']));
         }
 
         $message = "you are not in ";
@@ -88,7 +99,6 @@ class KhatmaController extends Controller
     }
 
 
-    
     public function destroy(khatma $khatma){
         $khatma->delete();
         $message = "Deleted successfully !";

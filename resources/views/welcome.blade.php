@@ -51,7 +51,7 @@
                     </div>
                 @endforeach
                 @else
-                    there is no khatmas
+                    {{ $message }}
                 @endif
                 </div>
                 

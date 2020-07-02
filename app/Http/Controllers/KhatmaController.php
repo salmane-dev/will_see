@@ -69,7 +69,8 @@ class KhatmaController extends Controller
                     'khatma_id' => $kha->id,  
                     'peeps_id' => $peep, 
                 ]);
-            } 
+            }
+
             else{
             auth()->user()->kh_peeps()->create([
                 'khatma_id' => $kha->id,  
@@ -96,16 +97,14 @@ class KhatmaController extends Controller
                         ->select('users.name')->get();
          
         //  $peeps = DB::table('kh_peeps')->where('khatma_id', $khatma->id )->pluck('peeps_id');
-            
         //  $peeps = App\User::all();
-        
         // $khatma->kh_peeps ..... could do the trick 
 
             return view('khatmas.show', compact(['khatma', 'peeps']));
         }
 
-        $message = "you are not in ";
-        return view('welcome', compact('message'));
+        $message = "Join the khatma";
+        return redirect('/join') ->with('message', $message);
     }
 
 

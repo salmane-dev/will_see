@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/join', function () {
+    return view('join');
+});
+
+
 
 Auth::routes();
 

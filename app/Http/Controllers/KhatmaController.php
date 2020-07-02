@@ -52,9 +52,8 @@ class KhatmaController extends Controller
             'days' => ['required', 'integer', 'max:30']  ,
             'join' => 'in:0,1'
         ]);
-         
 
-     $kha =  auth()->user()->khatmas()->create([
+        $kha =  auth()->user()->khatmas()->create([
             'name' => $data['name'],
             'peeps' => $data['peeps'],
             'days' => $data['days'],
@@ -63,13 +62,22 @@ class KhatmaController extends Controller
 
         // check if the khatma creator want to join it
         ($data['join'] == 1) ? $peep = auth::id() : $peep = null ; 
-        
+         
+        for( $i = 0 ; $i < $data['peeps'] ; $i++){
+            if( $i == 0){
+                auth()->user()->kh_peeps()->create([
+                    'khatma_id' => $kha->id,  
+                    'peeps_id' => $peep, 
+                ]);
+            } 
+            else{
+            auth()->user()->kh_peeps()->create([
+                'khatma_id' => $kha->id,  
+                'peeps_id' => null,
+                ]);
+            }
+        } 
 
-        auth()->user()->kh_peeps()->create([
-            'khatma_id' => $kha->id, 
-            'peeps_id' => $peep,
-        ]);
-       
         
         $message = "Created successfully !";
         return redirect('/')->with('message', $message);
@@ -91,6 +99,8 @@ class KhatmaController extends Controller
             
         //  $peeps = App\User::all();
         
+        // $khatma->kh_peeps ..... could do the trick 
+
             return view('khatmas.show', compact(['khatma', 'peeps']));
         }
 

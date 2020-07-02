@@ -16,7 +16,7 @@ class khatma extends Model
     }
 
     public function kh_peeps(){
-        return $this->hasOne('\App\kh_peeps');
+        return $this->hasMany('\App\kh_peeps');
     }
 
     

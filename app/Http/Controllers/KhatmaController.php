@@ -17,7 +17,6 @@ class KhatmaController extends Controller
         $this->middleware('auth');
     }
 
-    
  
     public function index(){
 
@@ -74,7 +73,7 @@ class KhatmaController extends Controller
             else{
             auth()->user()->kh_peeps()->create([
                 'khatma_id' => $kha->id,  
-                'peeps_id' => null,
+                'peeps_id' => 0,
                 ]);
             }
         } 
@@ -84,29 +83,56 @@ class KhatmaController extends Controller
         return redirect('/')->with('message', $message);
     }
 
-
+    public function join(khatma $khatma){
+        $message = "Join the khatma"; 
+        return view('/khatmas/join') ->with(['message' => $message, 'khatma' => $khatma ]);
+        
+    }
 
     public function show(khatma $khatma){
        
-        if(auth::user()->id == $khatma->user->id){
+            if(auth::user()->id == $khatma->user->id){
+                
+                // get the name of the khatmas peeps
+                $peeps = DB::table('users')
+                            ->join('kh_peeps' , 'kh_peeps.peeps_id', '=', 'users.id')
+                            ->where('kh_peeps.khatma_id', $khatma->id )
+                            ->select('users.name')->get();
+
+            //  $peeps = DB::table('kh_peeps')->where('khatma_id', $khatma->id )->pluck('peeps_id');
+            //  $peeps = App\User::all();
+            //  $khatma->kh_peeps ..... could do the trick 
+
+                return view('khatmas.show', compact(['khatma', 'peeps']));
+            }
+           
+            $message = "Join the khatma"; 
+             
+            return view('/khatmas/join', compact(['message','khatma']));
             
-            // get the name of the khatmas peeps
-            $peeps = DB::table('users')
-                        ->join('kh_peeps' , 'kh_peeps.peeps_id', '=', 'users.id')
-                        ->where('kh_peeps.khatma_id', $khatma->id )
-                        ->select('users.name')->get();
-         
-        //  $peeps = DB::table('kh_peeps')->where('khatma_id', $khatma->id )->pluck('peeps_id');
-        //  $peeps = App\User::all();
-        // $khatma->kh_peeps ..... could do the trick 
-
-            return view('khatmas.show', compact(['khatma', 'peeps']));
-        }
-
-        $message = "Join the khatma";
-        return redirect('/join') ->with('message', $message);
     }
 
+    public function edit($id){
+        
+    }
+
+    public function update(khatma $khatma){
+       
+        $kh_peeps =  $khatma->kh_peeps;
+        $peeps =   kh_peeps::Where('khatma_id', $khatma->id )->get();
+        
+        foreach($peeps as $peep ){
+            if($peep->peeps_id == auth::id()){
+                return " you're already in ";
+            }
+            if($peep->peeps_id == 0){
+                $peep->peeps_id = auth::id();
+                $peep->save();
+                return " you are in ";
+            }
+        }
+    }
+ 
 
     public function destroy(khatma $khatma){
         $khatma->delete();

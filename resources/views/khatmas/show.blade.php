@@ -15,7 +15,6 @@
                     {{ $message ?? '' }}
                     </div>
                 @endif
-
     </div>
 </div>
                 <div class="container mt-5">

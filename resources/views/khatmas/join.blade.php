@@ -18,14 +18,25 @@
             @endif
         </div> 
 
-        <div class="row h-100 m-auto w-100 ">
+            @if(   $message == "Join the khatma" ) 
+            <div class="row h-100 m-auto w-100 ">
+
                 <form class="col-6  " action="/khatma/{{ $khatma->id }}" method="post">
                     @csrf
                     @method('PATCH')
                      <button class=" btn btn-success text-light btn-lg  w-100 ">
-                        {{ $message }}
+                        {{ $message ?? ''  }}
                     </button>
                 </form>
+            @else
+                
+                <div class="alert alert-danger text-center">
+                    {{  $message ?? '' }}
+                </div>    
+           
+            <div class="row h-100 m-auto w-100 ">
+                
+            @endif
                 <div class="container col-6">
                     <a href="\" class=" btn btn-secondary text-light btn-lg  w-100 ">
                         Go back ahaha  
@@ -33,6 +44,7 @@
                 </div>
         </div>
 
+                {{  $wrong ?? '' }}
 </div>
 
                 

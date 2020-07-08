@@ -41,11 +41,12 @@ class KhatmaController extends Controller
             if($kh_all[$i]->id == $khat_id[$i]->khatma_id){
                  if (! $khatmas->contains('id', $khat_id[$i]->khatma_id))
                     $khatmas->push($kh_all[$i]);
-            } 
+                    
+            }   
         }
- 
+        $khatmas = $khatmas->sortDesc();
 
-        return view('welcome', compact('khatmas'));
+        return view('welcome', compact('khatmas' ));
    }
 
 
@@ -59,8 +60,8 @@ class KhatmaController extends Controller
    
         $data = request()->validate([
             'name' => ['required', 'string', 'max:125'],
-            'peeps' => ['required', 'integer', 'max:30'],
-            'days' => ['required', 'integer', 'max:30']  ,
+            'peeps' => ['required', 'integer', 'min:1', 'max:30'],
+            'days' => ['required', 'integer', 'min:1', 'max:30']  ,
             'join' => 'in:0,1'
         ]);
 
@@ -165,6 +166,10 @@ class KhatmaController extends Controller
                 return redirect('/khatma/'.$khatma->id)->with(['khatma', 'peeps', 'message']);
             }
         }
+         
+            $message = "somehow you can't join this khatma";
+            return view('/khatmas/join', compact(['message','khatma']));
+        
     }
  
 

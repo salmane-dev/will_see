@@ -104,6 +104,8 @@ class KhatmaController extends Controller
     public function show(khatma $khatma){
          
             if(auth::user()->id == $khatma->user->id){
+               
+                $message = 'you are in  ';
 
                 // get the name of the khatmas peeps
                 $peeps = DB::table('users')
@@ -126,7 +128,7 @@ class KhatmaController extends Controller
 
                                 $message = 'you are in  ';
 
-                return view('khatmas.show', compact(['khatma' , 'peeps' ,'message' ]));
+                return view('khatmas.show', compact(['khatma', 'peeps' ]));
                 }
             }
 
@@ -174,10 +176,16 @@ class KhatmaController extends Controller
  
 
     public function destroy(khatma $khatma){
-        $khatma->kh_peeps('khatma_id')->delete();
-        $khatma->delete();
-        $message = "Deleted successfully !";
-        return redirect('/')->with(['message'=> $message]);
+        if( auth::id() == $khatma->user_id){
+            $khatma->kh_peeps('khatma_id')->delete();
+            $khatma->delete();
+            $message = "Deleted successfully !";
+            return redirect('/')->with(['message'=> $message]);            
+        }else{
+            $msg = "you can't !";
+            return back()->with(['msg'=> $msg]);   
+        }
+
   }
 
 

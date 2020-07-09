@@ -12,9 +12,16 @@
   
                 @if( $message ?? '' )
                     <div class="alert alert-success">
-                    {{ $message ?? '' }}
+                        {{ $message ?? '' }}
                     </div>
                 @endif
+              
+                @if(Session::has('msg'))
+                    <div class="alert alert-danger">
+                        {{ Session('msg') ?? '' }}
+                    </div>
+                @endif
+
     </div>
 </div>
                 <div class="container mt-5">

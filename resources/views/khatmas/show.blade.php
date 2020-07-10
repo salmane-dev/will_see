@@ -27,15 +27,20 @@
                 <div class="container mt-5">
                
                     <div class="card border-dark m-5 d-flex">
-                        <div class="card-header d-flex justify-content-between">
+                        <div class="card-header d-flex justify-content-between ">
                             <strong><h4> {{ $khatma->name ?? '' }} </h4></strong>
+                            
                             <div class=" d-flex">
-                                <div class="container">
+
+                                <div class="container pr-1 pl-0">
                                     <a href="../" class="btn btn-secondary">Back</a>
                                 </div>
-                                <a href="#" class=" btn btn-success ">Edit</a>
-                                 
-                                <form action="/khatma/{{ $khatma->id ?? '' }}" method="post" class="container">
+                              
+                                <div class="container pr-1 pl-0">
+                                    <a href="#" class=" btn btn-success ">Edit</a>
+                                </div>
+                              
+                                <form action="/khatma/{{ $khatma->id ?? '' }}" method="post" class="container pr-1 pl-0">
                                 @method('DELETE')
                                 @csrf
                                     <button class="btn btn-danger ">Delete</button>
@@ -60,8 +65,9 @@
                             @for( $i = 0 ; $i < $khatma->peeps ?? '' ; $i++)
                             @php( ($peeps->count() > $co) ? $name=$peeps[$co]->name : $name='send' )
                                    <div class="row container rounded bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
-                                       <span class="col-3"><i class="fa fa-times fa-lg text-danger" ></i></span>
-                                       <strong class="col-5">from {{ round($share + 1) }} to {{   $share  = $share + 60/$khatma->peeps ?? '' }} </strong>
+                                        <input type="checkbox" data-toggle="toggle" data-on="Yup" data-off="Nope" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="sm">
+                                              
+                                        <strong class="col-5">from {{ round($share + 1) }} to {{   $share  = $share + 60/$khatma->peeps ?? '' }} </strong>
                                        <div class="col-3 text-center center">
                                            @if($name == 'send')
                                                <a href="#" class="kh-person-info">

@@ -43,7 +43,7 @@ class User extends Authenticatable
     } 
 
     public function kh_peeps(){
-        return $this->belongsTo('App\kh_peeps')->orderBy('created_at', 'DESC');
+        return $this->hasMany('App\kh_peeps')->orderBy('created_at', 'DESC');
     }   
 
 

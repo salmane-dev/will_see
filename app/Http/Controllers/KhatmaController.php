@@ -28,10 +28,10 @@ class KhatmaController extends Controller
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
         $khatmas = $user->khatmas;
-
  
         $khat_id = kh_peeps::where('peeps_id', $user_id)->get();
 
+        dd(kh_peeps::all());
 
         $kh_all = khatma::all();
  
@@ -92,7 +92,7 @@ class KhatmaController extends Controller
         } 
         
         $message = "Created successfully !";
-        return redirect('/')->with('message', $message);
+        return redirect('/khatma/'.$kha->id)->with('message', $message);
     }
 
     public function join(khatma $khatma){

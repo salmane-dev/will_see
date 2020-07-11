@@ -19,6 +19,10 @@ class khatma extends Model
         return $this->belongsTo('\App\kh_peeps');
     }
 
+    public function khatmas_users(){
+        return $this->belongsToMany('\App\User');
+    }
+
     
 
 }

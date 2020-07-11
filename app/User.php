@@ -30,7 +30,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast to native types.
-     *
      * @var array
      **/
 
@@ -44,6 +43,10 @@ class User extends Authenticatable
 
     public function kh_peeps(){
         return $this->hasMany('App\kh_peeps')->orderBy('created_at', 'DESC');
+    }   
+
+    public function users_khatma(){
+        return $this->belongsToMany('App\khatma')->orderBy('created_at', 'DESC');
     }   
 
 

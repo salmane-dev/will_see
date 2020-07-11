@@ -10,11 +10,11 @@ class kh_peeps extends Model
 
     //
     public function khatma(){
-        return $this->belongsTo('\App\khatma');
+        return $this->belongsToMany('\App\khatma');
     } 
 
     public function user(){
-        return $this->belongsTo('\App\User');
+        return $this->belongsToMany('\App\User');
     }   
 
 

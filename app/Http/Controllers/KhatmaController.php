@@ -19,32 +19,14 @@ class KhatmaController extends Controller
 
  
     public function index(){
-
-    /*  $user = auth()->user();
-        $khatmas = khatma::whereIn('user_id', $user);
-        return view('index', compact('khatmas'));
-    */
-
-        $user_id = auth()->user()->id;
-        $user = User::find($user_id);
-        $khatmas = $user->khatmas;
- 
-        $khat_id = kh_peeps::where('peeps_id', $user_id)->get();
-
-        dd(kh_peeps::all());
-
-        $kh_all = khatma::all();
- 
-        // not fucking working 
         
-        for($i=0 ; $i < $khat_id->count()  ; $i++){
-            if($kh_all[$i]->id == $khat_id[$i]->khatma_id){
-                 if (! $khatmas->contains('id', $khat_id[$i]->khatma_id))
-                    $khatmas->push($kh_all[$i]);
-                    
-            }   
-        }
+        $khatmas = auth()->user()->khatmas;
+        $joined_khatmas = auth()->user()->users_khatma;
+        
+        $khatmas = $khatmas->merge($joined_khatmas); 
+
         $khatmas = $khatmas->sortDesc();
+ 
 
         return view('welcome', compact('khatmas' ));
    }
@@ -73,29 +55,24 @@ class KhatmaController extends Controller
         ]);
 
         // check if the khatma creator want to join it
-        ($data['join'] == 1) ? $peep = auth::id() : $peep = null ; 
-         
-        for( $i = 0 ; $i < $data['peeps'] ; $i++){
-            if( $i == 0){
-                auth()->user()->kh_peeps()->create([
-                    'khatma_id' => $kha->id,  
-                    'peeps_id' => $peep, 
-                ]);
-            }
-
-            else{
-            auth()->user()->kh_peeps()->create([
-                'khatma_id' => $kha->id,  
-                'peeps_id' => 0,
-                ]);
-            }
-        } 
         
+         if($data['join'] == 1){
+            Auth::user()->users_khatma()->attach($kha->id);
+         }
+       
+       
+
         $message = "Created successfully !";
         return redirect('/khatma/'.$kha->id)->with('message', $message);
     }
 
     public function join(khatma $khatma){
+
+        if($khatma->khatmas_users->contains(auth::user())){
+            $message = 'you are already in  ';
+            return view('khatmas.show', compact(['khatma',  'message']));
+        }
+
         $message = "Join the khatma"; 
         return view('/khatmas/join') ->with(['message' => $message, 'khatma' => $khatma ]);
         
@@ -103,21 +80,20 @@ class KhatmaController extends Controller
 
     public function show(khatma $khatma){
          
-            if(auth::user()->id == $khatma->user->id){
-               
+
+       // dd( $khatma->khatmas_users->contains(auth::user()) );
+
+           
+
+            if( $khatma->khatmas_users->contains(auth::user()) || auth::user()->id == $khatma->user->id){
                 $message = 'you are in  ';
-
-                // get the name of the khatmas peeps
-                $peeps = DB::table('users')
-                            ->join('kh_peeps' , 'kh_peeps.peeps_id', '=', 'users.id')
-                            ->where('kh_peeps.khatma_id', $khatma->id )
-                            ->select('users.name')->get();
-
-                return view('khatmas.show', compact(['khatma', 'peeps', 'message']));
+                return view('khatmas.show', compact(['khatma',  'message']));
             }
 
+
+
            // $kh_peeps =  $khatma->kh_peeps;
-            $peeps =   kh_peeps::Where('khatma_id', $khatma->id )->get();
+      /*      $peeps =   kh_peeps::Where('khatma_id', $khatma->id )->get();
             foreach($peeps as $peep ){
                 if($peep->peeps_id == auth::id()){
                     // to send something 
@@ -131,6 +107,7 @@ class KhatmaController extends Controller
                 return view('khatmas.show', compact(['khatma', 'peeps' ]));
                 }
             }
+        */
 
             $message = "Join the khatma"; 
 
@@ -143,11 +120,17 @@ class KhatmaController extends Controller
 
     public function update(khatma $khatma){
 
+          Auth::user()->users_khatma()->toggle($khatma);
+        
+          if($khatma->khatmas_users->contains(auth::user())){
+            $message = 'you are already in  ';
+            return view('khatmas.show', compact(['khatma',  'message']));
+        }
+
+/*
         $kh_peeps =  $khatma->kh_peeps;
         $peeps =   kh_peeps::Where('khatma_id', $khatma->id )->get();
-
         $message = 'you are already in ';
-
         foreach($peeps as $peep ){
             if($peep->peeps_id == auth::id()){
 
@@ -168,8 +151,12 @@ class KhatmaController extends Controller
                 return redirect('/khatma/'.$khatma->id)->with(['khatma', 'peeps', 'message']);
             }
         }
-         
+        */ 
+
+
+
             $message = "somehow you can't join this khatma";
+           
             return view('/khatmas/join', compact(['message','khatma']));
         
     }
@@ -177,7 +164,7 @@ class KhatmaController extends Controller
 
     public function destroy(khatma $khatma){
         if( auth::id() == $khatma->user_id){
-            $khatma->kh_peeps('khatma_id')->delete();
+          // dd($khatma->kh_peeps('khatma_id')->delete()); 
             $khatma->delete();
             $message = "Deleted successfully !";
             return redirect('/')->with(['message'=> $message]);            

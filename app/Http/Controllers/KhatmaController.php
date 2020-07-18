@@ -79,10 +79,6 @@ class KhatmaController extends Controller
     }
 
     public function show(khatma $khatma){
-         
-
-       // dd( $khatma->khatmas_users->contains(auth::user()) );
-
            
 
             if( $khatma->khatmas_users->contains(auth::user()) || auth::user()->id == $khatma->user->id){
@@ -114,15 +110,20 @@ class KhatmaController extends Controller
             return view('/khatmas/join', compact(['message','khatma']));
     }
 
+
+
     public function edit($id){
         
     }
 
+
+
     public function update(khatma $khatma){
 
-          Auth::user()->users_khatma()->toggle($khatma);
-        
-          if($khatma->khatmas_users->contains(auth::user())){
+            Auth::user()->users_khatma()->toggle($khatma);
+             
+
+            if($khatma->khatmas_users->contains(auth::user())){
             $message = 'you are already in  ';
             return view('khatmas.show', compact(['khatma',  'message']));
         }
@@ -152,29 +153,24 @@ class KhatmaController extends Controller
             }
         }
         */ 
-
-
-
             $message = "somehow you can't join this khatma";
-           
             return view('/khatmas/join', compact(['message','khatma']));
         
     }
- 
 
     public function destroy(khatma $khatma){
         if( auth::id() == $khatma->user_id){
           // dd($khatma->kh_peeps('khatma_id')->delete()); 
             $khatma->delete();
+            Auth::user()->users_khatma()->toggle($khatma);
+
             $message = "Deleted successfully !";
             return redirect('/')->with(['message'=> $message]);            
         }else{
             $msg = "you can't !";
             return back()->with(['msg'=> $msg]);   
         }
-
   }
-
 
 
 }

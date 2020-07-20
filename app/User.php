@@ -46,7 +46,7 @@ class User extends Authenticatable
     }   
 
     public function users_khatma(){
-        return $this->belongsToMany('App\khatma')->orderBy('created_at', 'DESC');
+        return $this->belongsToMany('App\khatma')->orderBy('created_at', 'DESC')->withTimestamps();
     }   
 
 

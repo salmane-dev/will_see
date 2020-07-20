@@ -20,7 +20,7 @@ class khatma extends Model
     }
 
     public function khatmas_users(){
-        return $this->belongsToMany('\App\User');
+        return $this->belongsToMany('\App\User')->withTimestamps();
     }
 
     

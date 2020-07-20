@@ -22,11 +22,8 @@ class KhatmaController extends Controller
         
         $khatmas = auth()->user()->khatmas;
         $joined_khatmas = auth()->user()->users_khatma;
-        
         $khatmas = $khatmas->merge($joined_khatmas); 
-
         $khatmas = $khatmas->sortDesc();
- 
 
         return view('welcome', compact('khatmas' ));
    }
@@ -55,7 +52,6 @@ class KhatmaController extends Controller
         ]);
 
         // check if the khatma creator want to join it
-        
          if($data['join'] == 1){
             Auth::user()->users_khatma()->attach($kha->id);
          }
@@ -69,7 +65,7 @@ class KhatmaController extends Controller
     public function join(khatma $khatma){
 
         if($khatma->khatmas_users->contains(auth::user())){
-            $message = 'you are already in  ';
+            $message = 'you are in';
             return view('khatmas.show', compact(['khatma',  'message']));
         }
 
@@ -79,37 +75,16 @@ class KhatmaController extends Controller
     }
 
     public function show(khatma $khatma){
-           
+
 
             if( $khatma->khatmas_users->contains(auth::user()) || auth::user()->id == $khatma->user->id){
-                $message = 'you are in  ';
                 return view('khatmas.show', compact(['khatma',  'message']));
             }
-
-
-
-           // $kh_peeps =  $khatma->kh_peeps;
-      /*      $peeps =   kh_peeps::Where('khatma_id', $khatma->id )->get();
-            foreach($peeps as $peep ){
-                if($peep->peeps_id == auth::id()){
-                    // to send something 
-                    $peeps = DB::table('users')
-                                ->join('kh_peeps' , 'kh_peeps.peeps_id', '=', 'users.id')
-                                ->where('kh_peeps.khatma_id', $khatma->id )
-                                ->select('users.name')->get(); 
-
-                                $message = 'you are in  ';
-
-                return view('khatmas.show', compact(['khatma', 'peeps' ]));
-                }
-            }
-        */
 
             $message = "Join the khatma"; 
 
             return view('/khatmas/join', compact(['message','khatma']));
     }
-
 
 
     public function edit($id){
@@ -121,50 +96,26 @@ class KhatmaController extends Controller
     public function update(khatma $khatma){
 
             Auth::user()->users_khatma()->toggle($khatma);
-             
 
             if($khatma->khatmas_users->contains(auth::user())){
-            $message = 'you are already in  ';
+            $message = 'you are in';
             return view('khatmas.show', compact(['khatma',  'message']));
         }
-
-/*
-        $kh_peeps =  $khatma->kh_peeps;
-        $peeps =   kh_peeps::Where('khatma_id', $khatma->id )->get();
-        $message = 'you are already in ';
-        foreach($peeps as $peep ){
-            if($peep->peeps_id == auth::id()){
-
-                //to send names .. got figure out a simpler way.. later.
-                $peeps = DB::table('users')
-                            ->join('kh_peeps' , 'kh_peeps.peeps_id', '=', 'users.id')
-                            ->where('kh_peeps.khatma_id', $khatma->id )
-                            ->select('users.name')->get();
-
-                return view('khatmas.show', compact(['khatma', 'peeps','message']));
-            }
-            if($peep->peeps_id == 0){
-
-                $peep->peeps_id = auth::id();
-                $peep->save();
-                $message = "Welcome in";
-                
-                return redirect('/khatma/'.$khatma->id)->with(['khatma', 'peeps', 'message']);
-            }
-        }
-        */ 
+ 
             $message = "somehow you can't join this khatma";
             return view('/khatmas/join', compact(['message','khatma']));
-        
     }
 
     public function destroy(khatma $khatma){
         if( auth::id() == $khatma->user_id){
-          // dd($khatma->kh_peeps('khatma_id')->delete()); 
+            
+            // dd($khatma->kh_peeps('khatma_id')->delete()); 
+            //Auth::user()->users_khatma()->detach($khatma);
+            
+            $khatma->khatmas_users()->detach();
             $khatma->delete();
-            Auth::user()->users_khatma()->toggle($khatma);
-
-            $message = "Deleted successfully !";
+            
+            $message = "Deleted successfully!";
             return redirect('/')->with(['message'=> $message]);            
         }else{
             $msg = "you can't !";

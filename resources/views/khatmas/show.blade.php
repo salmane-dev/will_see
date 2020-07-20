@@ -59,15 +59,15 @@
                         </div>
 
                         <div class="card-body text-dark">
-                            @php( $share = 0 )
+                            @php( $share = 61 )
                             @php( $co = 0 )
-                            @php( $name = "send" )
+                            @php( $name = "send")
 
                             @for( $i = 0 ; $i < $khatma->peeps ?? '' ; $i++)
                                     <div class="row container rounded bg-light pr-2 pl-2 m-1 d-flex justify-content-between align-items-center "> 
                                         <input type="checkbox" data-toggle="toggle" data-on="Yup" data-off="Nope" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="sm">
                                               
-                                        <strong class="col-5">from {{ round($share + 1) }} to {{   $share  = $share + 60/$khatma->peeps ?? '' }} </strong>
+                                        <strong class="col-5">from {{ round($share -1 , 0) }} to {{   round($share  = $share - 60/$khatma->peeps  , 0) ?? '' }} </strong>
                                        <div class="col-3 text-center center">
                                             
                                            @if( $i  <  $khatma->khatmas_users->count())
